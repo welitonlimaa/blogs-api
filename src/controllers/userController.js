@@ -1,30 +1,25 @@
 const { createToken } = require('../auth/authenticator');
 const { userService } = require('../services');
 
-const loginAuth = async (req, res) => {
+const errorMap = require('../utils/errorMap');
+
+const createUser = async (req, res) => {
   try {
     const data = req.body;
 
-    const user = await userService.getUser(data);
+    const { type, message } = await userService.createUser(data);
 
-    if (!user) {
-      return res
-        .status(400)
-        .json({ message: 'Invalid fields' });
-    }
-
-    const { password: _, ...userWithoutPassword } = user.dataValues;
+    const { password: _, ...userWithoutPassword } = message;
 
     const token = createToken(userWithoutPassword);
+    if (type) return res.status(errorMap.mapError(type)).json({ message });
 
-    res.status(200).json({ token });
-  } catch (err) {
-    return res
-      .status(500)
-      .json({ message: 'Erro interno', error: err.message });
+    return res.status(201).json({ token });
+  } catch (error) {
+    res.status(500).json({ message: 'erro interno', error });
   }
 };
 
-module.exports = {
-  loginAuth,
+module.exports = { 
+  createUser,
 };

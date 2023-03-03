@@ -13,7 +13,9 @@ app.get('/', (_request, response) => {
 
 app.use(express.json());
 
-app.use('/login', routers.userRouter);
+app.use('/login', routers.loginRoute);
+
+app.use('/user', routers.userRoute);
 
 // ...
 
