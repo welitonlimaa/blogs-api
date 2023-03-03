@@ -9,6 +9,17 @@ const getAllUsers = async () => {
   return result;
 };
 
+const getUserById = async (userId) => { 
+  const userFound = await User.findByPk(userId);
+  if (!userFound) return { type: 'NOT_FOUND', message: 'User does not exist' };
+  const user = await User.findOne({
+    where: { id: userId },
+    attributes: { exclude: 'password' },
+  });
+
+  return { type: null, message: user };
+};
+
 const createUser = async (dataUser) => {
   const error = validateNewUser(dataUser);
   if (error.type) return error;
@@ -26,4 +37,5 @@ module.exports = {
   createUser,
   getUser,
   getAllUsers,
+  getUserById,
 };
