@@ -11,7 +11,14 @@ const dataCategorySchema = Joi.object({
   name: Joi.string().required(),
 });
 
+const dataPostSchema = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+  categoryIds: Joi.required(),
+});
+
 module.exports = {
   dataUserSchema,
   dataCategorySchema,
+  dataPostSchema,
 };
