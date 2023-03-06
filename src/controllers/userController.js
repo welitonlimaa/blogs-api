@@ -23,8 +23,6 @@ const createUser = async (req, res) => {
 const getUsers = async (_req, res) => {
   const users = await userService.getAllUsers();
 
-  if (!users) throw Error;
-
   res.status(200).json(users);
 };
 
