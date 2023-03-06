@@ -7,6 +7,11 @@ const dataUserSchema = Joi.object({
   image: Joi.string(),
 });
 
+const dataCategorySchema = Joi.object({
+  name: Joi.string().required(),
+});
+
 module.exports = {
   dataUserSchema,
+  dataCategorySchema,
 };
