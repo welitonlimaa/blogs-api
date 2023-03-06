@@ -16,11 +16,5 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     },
   );
-  // Category.associate = (models) => {
-  //   Category.belongsTo(models.blogPosts, {
-  //     foreignKey: '_id',
-  //     as: 'blogPosts',
-  //   });
-  // };
   return Category;
 };
