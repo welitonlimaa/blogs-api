@@ -14,4 +14,6 @@ router.get('/:id', authValidation, blogPostController.getPostById);
 
 router.put('/:id', authValidation, blogPostController.updatePost);
 
+router.delete('/:id', authValidation, blogPostController.removePost);
+
 module.exports = router;
