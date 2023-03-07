@@ -52,10 +52,20 @@ const removePost = async (req, res) => {
   res.status(204).end();
 };
 
+const searchPosts = async (req, res) => {
+  const { q } = req.query;
+  const { type, message } = await blogPostService.searchPosts(q);
+
+  if (type) return res.status(errorMap.mapError(type)).json(message);
+
+  res.status(200).json(message);
+};
+
 module.exports = {
   createBlogPost,
   getAllBlogPosts,
   getPostById,
   updatePost,
   removePost,
+  searchPosts,
 };
