@@ -1,12 +1,12 @@
 const { Category } = require('../../models');
 
-const { dataPostSchema } = require('./schemas');
+const { dataPostSchema, dataUpdatePostSchema } = require('./schemas');
 
 const validateNewPost = (data) => {
   const { error } = dataPostSchema.validate(data);
 
   if (error) {
-    return { type: 'BAD_REQUEST', message: error.message };
+    return { type: 'BAD_REQUEST', message: 'Some required fields are missing' };
   }
 
   return { type: null, message: '' };
@@ -22,7 +22,18 @@ const validateCategoryId = async (categorys) => {
   return { type: null, message: '' };
 };
 
+const validateUpdatePost = (data) => {
+  const { error } = dataUpdatePostSchema.validate(data);
+
+  if (error) {
+    return { type: 'BAD_REQUEST', message: 'Some required fields are missing' };
+  }
+
+  return { type: null, message: '' };
+};
+
 module.exports = {
   validateNewPost,
   validateCategoryId,
+  validateUpdatePost,
 };

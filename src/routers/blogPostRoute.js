@@ -12,4 +12,6 @@ router.get('/', authValidation, blogPostController.getAllBlogPosts);
 
 router.get('/:id', authValidation, blogPostController.getPostById);
 
+router.put('/:id', authValidation, blogPostController.updatePost);
+
 module.exports = router;

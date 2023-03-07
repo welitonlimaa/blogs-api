@@ -1,10 +1,14 @@
 const { BlogPost, PostCategory, User, Category, sequelize } = require('../models');
 
-const { validateNewPost, validateCategoryId } = require('./validations/blogPostValidation');
+const { 
+  validateNewPost, 
+  validateCategoryId, 
+  validateUpdatePost,
+} = require('./validations/blogPostValidation');
 
 const createBlogPost = async (dataBlogPost, userId) => {
   const dataError = validateNewPost(dataBlogPost);
-  if (dataError.type) return { type: 'BAD_REQUEST', message: 'Some required fields are missing' };
+  if (dataError.type) return dataError;
 
   const { title, content, categoryIds } = dataBlogPost;
 
@@ -53,8 +57,32 @@ const getPostById = async (postId) => {
   return { type: null, message: result };
 };
 
+const update = async (postId, userId, data) => {
+  const post = await BlogPost.findByPk(postId);
+  if (!post) return { type: 'NOT_FOUND', message: 'Post does not exist' };
+  if (post.userId !== userId) return { type: 'UNAUTHORIZED', message: 'Unauthorized user' };
+
+  const dataError = validateUpdatePost(data);
+  if (dataError.type) return dataError;
+
+  await BlogPost.update(data, {
+    where: { id: postId },
+  });
+
+  const updatedPost = await BlogPost.findOne({
+    where: { id: postId },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: 'password' } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  return { type: null, message: updatedPost };
+};
+
 module.exports = {
   createBlogPost,
   getAllBlogPosts,
   getPostById,
+  update,
 };
