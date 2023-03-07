@@ -33,9 +33,20 @@ const createUser = async (dataUser) => {
   return { type: null, message: userCreated };
 };
 
+const removeUser = async (userId) => {
+  const user = await User.findByPk(userId);
+  
+  if (!user) return { type: 'NOT_FOUND', message: 'Post does not exist' };
+
+  await User.destroy({ where: { id: userId } });
+
+  return { type: null, message: '' };
+};
+
 module.exports = {
   createUser,
   getUser,
   getAllUsers,
   getUserById,
+  removeUser,
 };
