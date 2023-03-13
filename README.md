@@ -13,7 +13,12 @@ Neste projeto você vai encontrar uma API e um banco de dados para a produção 
   
 <details>
   <summary><strong>‼️ Acessando Localmente</strong></summary><br/>
-   Com Docker
+  1. Clone o repositório
+
+  - Use o comando: `git clone`.
+  - Entre na pasta do repositório que você acabou de clonar
+
+  2. Com Docker
  
   **:warning: Antes de começar, seu docker-compose precisa estar na versão 1.29 ou superior.
 
